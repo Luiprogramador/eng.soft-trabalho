@@ -198,28 +198,28 @@ footer {
         text-align: center;
     }
 }
-.team-github {
+.integrantes {
     margin-top: 1.5rem;
     text-align: center;
 }
 
-.team-github h3 {
+.integrantes h3 {
     color: white;
     margin-bottom: 1rem;
 }
 
-.github-links {
+.integrantes-links {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.5rem;
 }
 
-.github-btn {
+.integrantes-btn {
     background-color: var(--accent);
     margin: 0.25rem;
 }
 
-.github-btn:hover {
+.integrantes-btn:hover {
     background-color: #e6951f;
 }
