@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalho de SCRUM</title>
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --secondary: #50E3C2;
+            --dark: #333;
+            --light: #f9f9f9;
+            --accent: #F5A623;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: var(--dark);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav a {
+            color: white;
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: var(--accent);
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        h2, h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .values-list, .ceremonies-list {
+            list-style-type: none;
+        }
+        
+        .values-list li, .ceremonies-list li {
+            background: rgba(74, 144, 226, 0.1);
+            margin-bottom: 0.5rem;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .daily-scrum-list {
+    list-style-type: none;
+    padding-left: 1rem; /* Ajuste conforme necessário */
+        }
+
+        .daily-scrum-list li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .daily-scrum-list li::before {
+            content: ""; /* Opcional: se quiser substituir por outro marcador */
+            color: var(--primary); /* Cor do marcador personalizado */
+            position: absolute;
+            left: 0;
+        }
+                
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 1.5rem;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .img-container {
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+        
+        .img-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .quote {
+            font-style: italic;
+            color: #666;
+            border-left: 3px solid var(--accent);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #3a7bc8;
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+            
+            nav a {
+                padding: 0.75rem;
+                text-align: center;
+            }
+        }
+        .team-github {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .team-github h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .github-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .github-btn {
+            background-color: var(--accent);
+            margin: 0.25rem;
+        }
+
+        .github-btn:hover {
+            background-color: #e6951f;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Trabalho de SCRUM para Engenharia de Software</h1>
+        <p>Uma abordagem ágil para gerenciamento de projetos</p>
+    </header>
+    
+    <nav>
+        <a href="#" class="nav-link active" data-tab="history">História</a>
+        <a href="#" class="nav-link" data-tab="concepts">Conceitos</a>
+        <a href="#" class="nav-link" data-tab="roles">Papéis e Artefatos</a>
+        <a href="#" class="nav-link" data-tab="ceremonies">Cerimônias</a>
+        <a href="#" class="nav-link" data-tab="pros-cons">Vantagens/Desvantagens</a>
+        <a href="#" class="nav-link" data-tab="comparison">Comparação</a>
+    </nav>
+    
+    <div class="container">
+        <!-- História do Scrum -->
+        <div id="history" class="tab-content active">
+            <div class="card">
+                <h2>História e Surgimento das Metodologias Ágeis</h2>
+                <p>O surgimento de processos alternativos aos modelos tradicionais de desenvolvimento de software começou a aparecer nos anos 90 como uma resposta aos métodos tradicionais de desenvolvimento, que eram considerados muito lentos e burocráticos.</p>
+                
+                <p>Esses novos métodos buscaram encorajar uma frequente inspeção e adaptação, visando melhoria contínua e uma entrega de alta qualidade, buscando também entregas mais rápidas, além de um melhor alinhamento entre o desenvolvimento e os objetivos do cliente.</p>
+                
+                <p>Inicialmente eram chamadas de metodologias leves e o termo metodologia ágil só passou a ser utilizado em 2001, quando 17 especialistas se reuniram para discutir maneiras de desenvolver software de maneira mais eficiente, criando então o manifesto ágil.</p>
+                
+                <h3>Origem do Termo Scrum</h3>
+                <p>O termo Scrum surge em 1986, quando dois pesquisadores publicaram, na Harvard Business Review, um estudo de caso em que se comparou equipes de alto desempenho com equipes de rugby, que resultou na descoberta que equipes pequenas e com pessoas com diferentes experiências obtinham melhores resultados.</p>
+            
+                <p>O método Scrum foi utilizado inicialmente em 1993, quando Ken Schwaber e Jeff Sutherland utilizaram métodos semelhantes nas empresas em que trabalhavam. Em 1995, Sutherland e Schwaber trabalharam colaborativamente integrando suas ideias, para oficializar o método scrum e publicar o processo em uma conferência de desenvolvimento de software.</p>
+            </div>
+        </div>
+        
+        <!-- Conceitos e Características -->
+        <div id="concepts" class="tab-content">
+            <div class="card">
+                <h2>Principais Conceitos e Características das Metodologias Ágeis</h2>
+                
+                <h3>Os 4 Valores do Manifesto Ágil</h3>
+                <ul class="values-list">
+                    <li><strong>Indivíduos e interações</strong> acima de processos e ferramentas.</li>
+                    <li><strong>Software funcionando</strong> acima de documentação extensiva.</li>
+                    <li><strong>Colaboração com o cliente</strong> acima de negociação de contratos.</li>
+                    <li><strong>Responder a mudanças</strong> acima de seguir um plano.</li>
+                </ul>
+                
+                <div class="img-container">
+                    <img src="https://sankhya.com.br/wp-content/uploads/2022/12/Valores-do-manifesto-agil.png" alt="Manifesto Ágil">
+                </div>
+                
+                <h3>Teoria do Scrum</h3>
+                <p>Scrum é baseado no empirismo e lean thinking. O empirismo afirma que o conhecimento vem da experiência e da tomada de decisões com base no que é observado. O lean thinking reduz o desperdício e se concentra no essencial.</p>
+                
+                <h3>Princípios do Scrum</h3>
+                <p>Scrum combina quatro eventos formais para inspeção e adaptação, contidos dentro de um evento, a Sprint. Esses eventos funcionam porque implementam os pilares empíricos do Scrum:</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>Transparência</h4>
+                        <p>Garante que todos os envolvidos no projeto tenham uma compreensão clara do trabalho e do progresso.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Inspeção (Feedback)</h4>
+                        <p>Avaliação contínua do cliente ao trabalho em relação às expectativas.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Adaptação</h4>
+                        <p>Faz ajustes iterativos para otimizar os resultados.</p>
+                    </div>
+                </div>
+                
+                <h3>Os Valores do Scrum</h3>
+                <p>O sucesso do uso do Scrum depende das pessoas se tornarem mais proficientes em viver cinco valores:</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>Compromisso</h4>
+                        <p>Dedicação pessoal para alcançar os objetivos da equipe.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Foco</h4>
+                        <p>Concentração no trabalho da Sprint e nos objetivos da equipe.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Abertura</h4>
+                        <p>Transparência sobre o trabalho e os desafios.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Respeito</h4>
+                        <p>Reconhecimento das capacidades e contribuições de cada membro.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Coragem</h4>
+                        <p>Para fazer a coisa certa e trabalhar em problemas difíceis.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Papéis e Artefatos -->
+        <div id="roles" class="tab-content">
+            <div class="card">
+                <h2>Papéis e Artefatos do Scrum</h2>
+                
+                <div class="quote">
+                    "O SCRUM não descreve um método específico para o desenvolvimento do software durante a etapa de desenvolvimento, mas sim como uma equipe deve trabalhar num sistema flexível, em um ambiente cheio de mudanças."
+                </div>
+                
+                <h3>Elementos de Apoio (Artefatos)</h3>
+                <p>Os únicos elementos de apoio que a equipe produz para seguir a prática do SCRUM são cartões com as funcionalidades e gráficos de acompanhamento (os gráficos são atualizados regularmente e devem refletir o estado do projeto). O agrupamento desses cartões fazem o Backlog do Produto e demais backlogs.</p>
+                
+                <h4>Backlog do Produto</h4>
+                <p>Lista de todos os cartões de funcionalidades que o produto deve possuir e que ainda não foram desenvolvidas.</p>
+                
+                <h4>Backlog Selecionado</h4>
+                <p>Um subconjunto de funcionalidades que o cliente escolheu a partir do backlog do produto para ser implementado no sprint atual e que não pode ser modificado durante o sprint.</p>
+                
+                <h4>Backlog do Sprint</h4>
+                <p>Lista priorizada, obtida a partir da quebra dos cartões do backlog selecionado em tarefas menores.</p>
+                
+                <h4>Backlog de Impedimentos</h4>
+                <p>Lista dos obstáculos identificados pela equipe que não pertencem ao contexto do desenvolvimento.</p>
+                
+                <h4>Gráficos de Acompanhamento</h4>
+                <p>Gráficos que medem a quantidade de trabalho restante (burndown charts) são os preferidos em Scrum. É recomendado fazê-los para várias esferas do projeto: para o produto, para a release e para o sprint.</p>
+                
+                <h3>Scrum Team</h3>
+                <p>Formado pelos developers, Scrum Master e Product Owner.</p>
+                
+                <h3>Papéis e Responsabilidades</h3>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>Cliente</h4>
+                        <p>Participa das tarefas relacionadas à definição da lista de funcionalidade do software sendo desenvolvido ou melhorado, elaborando os requisitos e restrições do produto final desejado.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Gerente</h4>
+                        <p>É responsável pela tomada de decisões finais baseadas nas informações fornecidas em relação ao projeto. Além disso, também tem a responsabilidade firmar o acordo do que será feito com o Cliente.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Equipe Scrum/Scrum Team</h4>
+                        <p>É a equipe que possui a autoridade de tomar as ações necessárias e definir a organização do projeto para chegar nas metas finais.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Scrum Master</h4>
+                        <p>É o responsável por garantir que o projeto esteja sendo feito conforme o que foi planejado no Scrum e que o progresso esteja alinhado com o que o Cliente quer. Além disso, o Scrum Master interage tanto com a Equipe Scrum, como com os Clientes e o Gerente durante o projeto. O Scrum Master também é responsável por remover qualquer obstáculo ao longo do projeto, visando que a equipe trabalhe da forma mais produtiva possível.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Product Owner</h4>
+                        <p>É oficialmente responsável pelo projeto, gerenciamento, controle e por tornar visível a lista de funcionalidade do produto. Ele é escolhido pelo Gerente, o Cliente e o Scrum Master, ele é responsável por tomar as decisões finais referentes a transformar o "produto bruto" no produto final.</p>
+                    </div>
+                </div>
+                
+                <h3>Entregas Contínuas</h3>
+                <p>A metodologia proposta pelo método Scrum leva em consideração um sistema de entregas contínuas (de resultado). Para esse modelo funcionar, são necessários os backlogs definidos (requisitos funcionais do sistema), um sprint programado (período de tempo no qual o trabalho será dividido para a realização de uma entrega), Daily Scrum que são reuniões diárias para analisar se o projeto está dentro dos conformes e, ao final de cada sprint, uma reunião para retrospectiva e planejamento da próxima etapa.</p>
+            </div>
+        </div>
+        
+        <!-- Cerimônias -->
+        <div id="ceremonies" class="tab-content">
+            <div class="card">
+                <h2>Cerimônias e Explicação do Scrum</h2>
+                
+                <ol class="ceremonies-list">
+                    <li>
+                        <h3>Sprint Planning (Planejamento da Sprint)</h3>
+                        <p>Define quais tarefas do backlog serão desenvolvidas na Sprint. O Product Owner apresenta as prioridades, e o time avalia o esforço necessário para cada item.</p>
+                    </li>
+                    <li>
+                        <h3>Daily Scrum (Reunião Diária)</h3>
+                        <p>Encontro rápido (máx. 15 minutos) onde cada membro responde:</p>
+                        <ul class="daily-scrum-list">
+                            <li>O que fez ontem?</li>
+                            <li>O que fará hoje?</li>
+                            <li>Algum impedimento?</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h3>Sprint Review (Revisão da Sprint)</h3>
+                        <p>O time apresenta os incrementos do produto ao Product Owner e demais stakeholders, recebendo feedback sobre o que foi desenvolvido.</p>
+                    </li>
+                    <li>
+                        <h3>Sprint Retrospective (Retrospectiva da Sprint)</h3>
+                        <p>Momento de reflexão sobre o que funcionou bem e o que pode ser melhorado no próximo ciclo.</p>
+                    </li>
+                </ol>
+                
+                <div class="img-container">
+                    <img src="https://hermes.dio.me/articles/cover/944a38f8-de81-4436-b145-4fb69ff17a55.png" alt="Cerimônias do Scrum">
+                </div>
+                
+                <h3>Exemplo Prático</h3>
+                
+                <h4>1. Criação e Priorização do Backlog</h4>
+                <p>O Product Owner mantém um Product Backlog, que é uma lista de todas as funcionalidades, melhorias e correções que precisam ser feitas no produto. Cada item do backlog tem uma prioridade definida.</p>
+                <p><strong>Exemplo:</strong> Uma equipe está desenvolvendo um aplicativo de delivery. No backlog, há itens como "Criar tela de login", "Implementar rastreamento de pedidos" e "Adicionar suporte a pagamentos via Pix".</p>
+                
+                <h4>2. Planejamento da Sprint (Sprint Planning)</h4>
+                <p>Antes de iniciar uma Sprint, o time define quais tarefas serão desenvolvidas com base na prioridade e capacidade do time. Esses itens formam o Sprint Backlog.</p>
+                <p><strong>Exemplo:</strong> Se a Sprint durar 2 semanas, o time pode escolher desenvolver a "Tela de login" e o "Sistema de rastreamento de pedidos", conforme o esforço estimado.</p>
+                
+                <h4>3. Execução e Daily Scrum</h4>
+                <p>Durante a Sprint, o time trabalha nos itens escolhidos e realiza reuniões diárias de até 15 minutos (Daily Scrum) para sincronizar o progresso e identificar impedimentos.</p>
+                <p><strong>Exemplo:</strong> Um desenvolvedor pode dizer na Daily Scrum: "Ontem finalizei a tela de login. Hoje vou integrar o banco de dados. Preciso de ajuda com a autenticação de usuários."</p>
+                
+                <h4>4. Revisão da Sprint (Sprint Review)</h4>
+                <p>No final da Sprint, o time apresenta as funcionalidades prontas para o Product Owner e stakeholders. Eles testam e dão feedback sobre o que foi feito.</p>
+                <p><strong>Exemplo:</strong> O Product Owner testa o rastreamento de pedidos e sugere melhorar a exibição do status de entrega.</p>
+                
+                <h4>5. Retrospectiva da Sprint (Sprint Retrospective)</h4>
+                <p>Após a revisão, a equipe realiza uma reunião para analisar o que funcionou bem e o que pode ser melhorado na próxima Sprint.</p>
+                <p><strong>Exemplo:</strong> O time percebe que gastou muito tempo resolvendo problemas de comunicação e decide usar uma ferramenta de acompanhamento de tarefas mais eficiente.</p>
+                
+                <h4>6. Início de uma Nova Sprint</h4>
+                <p>Após a retrospectiva, inicia-se um novo ciclo de Sprint, repetindo o processo até a conclusão do projeto.</p>
+                
+                <h3>Resumo do Ciclo:</h3>
+                <p>Planejamento → Execução → Reuniões diárias → Revisão → Retrospectiva → Nova Sprint</p>
+            </div>
+        </div>
+        
+        <!-- Vantagens e Desvantagens -->
+        <div id="pros-cons" class="tab-content">
+            <div class="card">
+                <h2>Vantagens e Desvantagens do Scrum</h2>
+                
+                <h3>As vantagens do Scrum</h3>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>1. Maior flexibilidade</h4>
+                        <p>O Scrum oferece uma abordagem flexível para o desenvolvimento de projetos. Ao invés de seguir um plano rígido, as equipes Scrum têm a capacidade de se adaptar e responder às mudanças durante o processo de desenvolvimento.</p>
+                    </div>
+                    <div class="card">
+                        <h4>2. Entrega contínuas de valor incremental</h4>
+                        <p>O Scrum é baseado em ciclos de desenvolvimento chamados de Sprints, nos quais pequenas partes do produto são desenvolvidas e entregues ao longo do tempo. Isso possibilita que o cliente tenha acesso a funcionalidades em estágios iniciais, proporcionando feedback valioso e permitindo ajustes conforme necessário.</p>
+                    </div>
+                    <div class="card">
+                        <h4>3. Colaboração e comunicação eficazes</h4>
+                        <p>O Scrum promove uma cultura de colaboração e comunicação entre os membros da equipe. Durante as reuniões diárias (Daily Scrum), todos os membros compartilham o que estão fazendo, o que foi concluído e quais são os próximos passos.</p>
+                    </div>
+                    <div class="card">
+                        <h4>4. Melhoria contínua</h4>
+                        <p>O Scrum incentiva a busca pela melhoria contínua. Por meio de retrospectivas realizadas ao final de cada Sprint, a equipe analisa o que funcionou bem e o que precisa ser aprimorado. Essa abordagem permite que a equipe aprenda com os erros e conquiste um processo de desenvolvimento cada vez mais eficiente.</p>
+                    </div>
+                    <div class="card">
+                        <h4>5. Visibilidade e transparência</h4>
+                        <p>O Scrum oferece uma visibilidade clara do progresso do projeto. Por meio do quadro Scrum (Scrum board), todos os membros da equipe podem acompanhar as tarefas em andamento, o que já foi concluído e o que está pendente. Isso promove a transparência e facilita o monitoramento do projeto por todos os envolvidos.</p>
+                    </div>
+                </div>
+                
+                <h3>As desvantagens do Scrum</h3>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>1. Dificuldade na definição de prazos</h4>
+                        <p>A abordagem flexível do Scrum pode dificultar a definição de prazos concretos para a conclusão de um projeto. Como as necessidades e os requisitos podem mudar ao longo do tempo, é desafiador estimar com precisão quando o projeto estará concluído. Isso pode ser um problema especialmente para clientes que têm expectativas claras de prazos.</p>
+                    </div>
+                    <div class="card">
+                        <h4>2. Requer uma equipe altamente autogerenciável</h4>
+                        <p>O Scrum pressupõe que a equipe seja auto gerenciável e capaz de tomar decisões de forma independente. Isso pode ser um desafio para equipes que não possuem experiência ou maturidade suficiente para assumir essa responsabilidade. A falta de autogerenciamento pode levar a atrasos e problemas de qualidade.</p>
+                    </div>
+                    <div class="card">
+                        <h4>3. Necessidade de colaboração intensa</h4>
+                        <p>O Scrum exige uma colaboração intensa entre os membros da equipe. Embora isso possa ser benéfico em muitos aspectos, pode ser difícil para equipes distribuídas geograficamente ou com membros que têm diferentes horários de trabalho. A falta de colaboração eficaz pode prejudicar a produtividade e a comunicação.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Comparação com outras metodologias -->
+        <div id="comparison" class="tab-content">
+            <div class="card">
+                <h2>Comparação com outras metodologias</h2>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Metodologia</th>
+                            <th>Descrição</th>
+                            <th>Características</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Cascata (Waterfall)</strong></td>
+                            <td>Um modelo tradicional sequencial, onde o progresso flui em uma única direção – desde o planejamento até a entrega final.</td>
+                            <td>
+                                <ul>
+                                    <li>Segue direção única</li>
+                                    <li>Não há revisão ou mudança durante o ciclo</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Iterativo</strong></td>
+                            <td>Semelhante ao Scrum. Os papeis podem ser adaptados conforme as necessidades do projeto.</td>
+                            <td>
+                                <ul>
+                                    <li>Papeis adaptados</li>
+                                    <li>Ciclo de entrega mais longo que Scrum</li>
+                                    <li>Iterações sem entregas necessariamente completas</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Caótico</strong></td>
+                            <td>Não é um modelo estruturado. Projetos caóticos carecem de planejamento e podem ser altamente imprevisíveis.</td>
+                            <td>
+                                <ul>
+                                    <li>Não estruturado</li>
+                                    <li>Carece de planejamento</li>
+                                    <li>Imprevisível</li>
+                                    <li>Baixa qualidade no produto final</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Espiral</strong></td>
+                            <td>Focado na gestão de riscos. Durante cada ciclo, os riscos identificados na fase anterior são analisados em profundidade.</td>
+                            <td>
+                                <ul>
+                                    <li>Gestão de riscos</li>
+                                    <li>Análise do ciclo anterior</li>
+                                    <li>Permite entrega incremental</li>
+                                    <li>Ideal para projetos com alta complexidade e incerteza</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Incremental</strong></td>
+                            <td>O trabalho é dividido em partes menores e entregues em incrementos. Embora o produto final só seja concluído após vários incrementos, ele é funcional desde as primeiras entregas.</td>
+                            <td>
+                                <ul>
+                                    <li>Dividido em partes menores</li>
+                                    <li>Entregas em incrementos</li>
+                                    <li>Funcional desde o início</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Desenvolvido com base no documento produzido por nós.</p>
+        <div class="team-github">
+            <h3>Integrantes do Trabalho:</h3>
+            <div class="github-links">
+                <a href="https://github.com/arthur" class="btn github-btn" target="_blank">Arthur</a>
+                <a href="https://github.com/lui" class="btn github-btn" target="_blank">Lui</a>
+                <a href="https://github.com/guilhermesantiago" class="btn github-btn" target="_blank">Guilherme Santiago</a>
+                <a href="https://github.com/alejandro" class="btn github-btn" target="_blank">Alejandro</a>
+                <a href="https://github.com/guilhermemotta" class="btn github-btn" target="_blank">Guilherme Motta</a>
+                <a href="https://github.com/icami" class="btn github-btn" target="_blank">Içami</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
+            const navLinks = document.querySelectorAll('.nav-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and tabs
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    tabContents.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked link and corresponding tab
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Simple animation for cards on scroll
+            const cards = document.querySelectorAll('.card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.5s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
